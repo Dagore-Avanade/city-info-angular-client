@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { CityService } from 'src/app/services/city.service';
   templateUrl: './new-point-of-interest.component.html',
   styleUrls: ['./new-point-of-interest.component.css'],
 })
-export class NewPointOfInterestComponent implements OnInit {
+export class NewPointOfInterestComponent implements OnInit, OnDestroy {
   submitted = false;
   loading = false;
   actionLoading = false;
@@ -74,5 +74,10 @@ export class NewPointOfInterestComponent implements OnInit {
           this.actionLoading = false;
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.cities$?.unsubscribe();
+    this.createdCity$?.unsubscribe();
   }
 }

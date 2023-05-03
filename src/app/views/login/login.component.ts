@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs';
+import { Subscription, first } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,10 +9,11 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loading = false;
   submitted = false;
+  login$: Subscription | null = null;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
     if (this.form.invalid) return;
 
     this.loading = true;
-    this.userService
+    this.login$ = this.userService
       .login(this.username?.value, this.password?.value)
       .pipe(first())
       .subscribe({
@@ -53,5 +54,9 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.login$?.unsubscribe();
   }
 }
