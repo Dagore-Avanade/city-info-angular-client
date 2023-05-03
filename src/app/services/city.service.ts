@@ -9,6 +9,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import ICityWithoutPointOfInterest from '../interfaces/ICityWithoutPointOfInterest';
 import { environment } from 'src/environments/environment';
 import ICity from '../interfaces/ICity';
+import IPointOfInterest from '../interfaces/IPointOfInterest';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,22 @@ export class CityService {
       .delete<void>(
         `${environment.apiUrl}/api/cities/${cityId}/pointsofinterest/${pointOfInterestId}`,
         { headers: this.headerOptions }
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  createPointOfInterest(pointOfInterest: {
+    cityId: number;
+    name: string;
+    description?: string;
+  }): Observable<IPointOfInterest> {
+    return this.http
+      .post<IPointOfInterest>(
+        `${environment.apiUrl}/api/cities/${pointOfInterest.cityId}/pointsofinterest`,
+        pointOfInterest,
+        {
+          headers: this.headerOptions,
+        }
       )
       .pipe(catchError(this.handleError));
   }

@@ -10,6 +10,7 @@ import { HomeComponent } from './views/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CitiesListComponent } from './components/cities-list/cities-list.component';
 import { CityDetailComponent } from './views/city-detail/city-detail.component';
+import { NewPointOfInterestComponent } from './views/new-point-of-interest/new-point-of-interest.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CityDetailComponent } from './views/city-detail/city-detail.component';
     NavbarComponent,
     CitiesListComponent,
     CityDetailComponent,
+    NewPointOfInterestComponent,
   ],
   imports: [
     BrowserModule,
