@@ -8,6 +8,7 @@ import {
 import { Observable, catchError, throwError } from 'rxjs';
 import ICityWithoutPointOfInterest from '../interfaces/ICityWithoutPointOfInterest';
 import { environment } from 'src/environments/environment';
+import ICity from '../interfaces/ICity';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,17 @@ export class CityService {
       .get<ICityWithoutPointOfInterest[]>(`${environment.apiUrl}/api/cities`, {
         headers: this.headerOptions,
       })
+      .pipe(catchError(this.handleError));
+  }
+
+  getById(id: number): Observable<ICity> {
+    return this.http
+      .get<ICity>(
+        `${environment.apiUrl}/api/cities/${id}?includePointsOfInterest=true`,
+        {
+          headers: this.headerOptions,
+        }
+      )
       .pipe(catchError(this.handleError));
   }
 

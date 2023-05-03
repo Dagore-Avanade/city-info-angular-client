@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { canActivateAuthGuard } from './helpers/auth.guard';
+import { CityDetailComponent } from './views/city-detail/city-detail.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -10,7 +11,11 @@ const routes: Routes = [
   // { path: 'newCity' },
   // { path: 'newPointOfInterest' },
   // { path: 'updatePointOfInterest' },
-  // { path: 'city/:id' },
+  {
+    path: 'city/:id',
+    component: CityDetailComponent,
+    canActivate: [canActivateAuthGuard],
+  },
   { path: '', component: HomeComponent, canActivate: [canActivateAuthGuard] },
 ];
 
