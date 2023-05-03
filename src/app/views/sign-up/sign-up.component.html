@@ -35,6 +35,23 @@
             </div>
           </div>
         </div>
+        <div class="mb-3">
+          <label class="form-label" for="confirmPassword"
+            >Confirma la contraseña</label
+          >
+          <input
+            type="password"
+            required
+            formControlName="confirmPassword"
+            name="confirmPassword"
+            title="confirm password"
+            class="form-control" />
+          <div *ngIf="submitted && password?.errors" class="invalid-feedback">
+            <div *ngIf="submitted && password?.errors?.['required']">
+              Las contraseñas no coinciden.
+            </div>
+          </div>
+        </div>
         <div class="text-center">
           <button
             [disabled]="loading"
@@ -43,11 +60,10 @@
             <span
               *ngIf="loading"
               class="spinner-border spinner-border-sm me-1"></span>
-            Inicia sesión
+            Regístrate
           </button>
           <p>
-            ¿No tienes cuenta?
-            <a routerLink="../signUp">Regístrate</a>
+            ¿Ya estás registrado? <a routerLink="../login">Inicia sesión</a>
           </p>
         </div>
       </form>

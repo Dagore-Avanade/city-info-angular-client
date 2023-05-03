@@ -6,10 +6,11 @@ import { canActivateAuthGuard } from './helpers/auth.guard';
 import { CityDetailComponent } from './views/city-detail/city-detail.component';
 import { NewPointOfInterestComponent } from './views/new-point-of-interest/new-point-of-interest.component';
 import { UpdatePointOfInterestComponent } from './views/update-point-of-interest/update-point-of-interest.component';
+import { SignUpComponent } from './views/sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  // { path: 'signUp' },
+  { path: 'signUp', component: SignUpComponent },
   // { path: 'newCity' },
   {
     path: 'newPointOfInterest',

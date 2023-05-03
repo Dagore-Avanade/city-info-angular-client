@@ -12,6 +12,7 @@ import { CitiesListComponent } from './components/cities-list/cities-list.compon
 import { CityDetailComponent } from './views/city-detail/city-detail.component';
 import { NewPointOfInterestComponent } from './views/new-point-of-interest/new-point-of-interest.component';
 import { UpdatePointOfInterestComponent } from './views/update-point-of-interest/update-point-of-interest.component';
+import { SignUpComponent } from './views/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { UpdatePointOfInterestComponent } from './views/update-point-of-interest
     CityDetailComponent,
     NewPointOfInterestComponent,
     UpdatePointOfInterestComponent,
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,

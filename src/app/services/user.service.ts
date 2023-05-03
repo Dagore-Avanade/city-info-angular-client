@@ -50,6 +50,27 @@ export class UserService {
       );
   }
 
+  signUp(username: string, password: string) {
+    return this.http
+      .post<User>(
+        `${environment.apiUrl}/api/auth/signup`,
+        JSON.stringify({
+          username,
+          password,
+        }),
+        {
+          headers: this.headerOptions,
+        }
+      )
+      .pipe(
+        map(user => {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.userSubject.next(user);
+          return user;
+        })
+      );
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);

@@ -12,7 +12,6 @@ export class NavbarComponent {
   }
 
   links: Link[] = [
-    { display: 'Inicio', path: '/' },
     { display: 'Nuevo punto de interés', path: '/newPointOfInterest' },
   ];
 
