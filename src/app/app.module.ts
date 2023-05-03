@@ -8,9 +8,16 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CitiesListComponent } from './components/cities-list/cities-list.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    NavbarComponent,
+    CitiesListComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
