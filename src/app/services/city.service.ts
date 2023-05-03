@@ -42,6 +42,18 @@ export class CityService {
       .pipe(catchError(this.handleError));
   }
 
+  removePointOfInterest(
+    cityId: number,
+    pointOfInterestId: number
+  ): Observable<void> {
+    return this.http
+      .delete<void>(
+        `${environment.apiUrl}/api/cities/${cityId}/pointsofinterest/${pointOfInterestId}`,
+        { headers: this.headerOptions }
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMsg = '';
 

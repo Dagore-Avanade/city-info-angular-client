@@ -21,16 +21,27 @@
               <div class="card-footer">
                 <button
                   type="button"
+                  [disabled]="actionLoading"
                   class="btn btn-primary mx-2"
                   (click)="update(city!.id, pointOfInterest.id)">
                   Actualizar
                 </button>
                 <button
                   type="button"
+                  [disabled]="actionLoading"
                   class="btn btn-danger mx-2"
                   (click)="remove(city!.id, pointOfInterest.id)">
                   Eliminar
                 </button>
+                <p
+                  *ngIf="
+                    actionError &&
+                    actionError.cityId === city!.id &&
+                    actionError.pointOfInterestId === pointOfInterest.id
+                  "
+                  class="text-danger">
+                  {{ actionError.message }}
+                </p>
               </div>
             </div>
           </div>
