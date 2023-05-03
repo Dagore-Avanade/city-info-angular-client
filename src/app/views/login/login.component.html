@@ -4,7 +4,10 @@
     <div class="card">
       <h2 class="card-header">Inicia sesión</h2>
       <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="was-validated">
+        <form
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+          [ngClass]="submitted ? 'was-validated' : ''">
           <div class="mb-3">
             <label class="form-label" for="username">Usuario</label>
             <input
@@ -15,7 +18,7 @@
               class="form-control" />
             <div *ngIf="submitted && username?.errors" class="invalid-feedback">
               <div *ngIf="submitted && username?.errors?.['required']">
-                Username is required
+                El nombre de usuario es obligatorio
               </div>
             </div>
           </div>
@@ -30,7 +33,7 @@
               class="form-control" />
             <div *ngIf="submitted && password?.errors" class="invalid-feedback">
               <div *ngIf="submitted && password?.errors?.['required']">
-                Password is required
+                La contraseña es obligatoria
               </div>
             </div>
           </div>
