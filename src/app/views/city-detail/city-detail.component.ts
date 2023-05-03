@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import ICity from 'src/app/interfaces/ICity';
 import { CityService } from 'src/app/services/city.service';
@@ -24,7 +24,8 @@ export class CityDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly cityService: CityService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
   init(): void {
@@ -47,7 +48,9 @@ export class CityDetailComponent implements OnInit, OnDestroy {
   }
 
   update(cityId: number, pointOfInterestId: number): void {
-    console.log('Update', cityId, pointOfInterestId);
+    this.router.navigate(['/updatePointOfInterest'], {
+      queryParams: { cityId, pointOfInterestId },
+    });
   }
 
   remove(cityId: number, pointOfInterestId: number): void {

@@ -71,6 +71,29 @@ export class CityService {
       .pipe(catchError(this.handleError));
   }
 
+  getPointOfInterest(
+    cityId: number,
+    pointOfInterestId: number
+  ): Observable<IPointOfInterest> {
+    return this.http
+      .get<IPointOfInterest>(
+        `${environment.apiUrl}/api/cities/${cityId}/pointsofinterest/${pointOfInterestId}`,
+        { headers: this.headerOptions }
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  updatePointOfInterest(
+    cityId: number,
+    pointOfInterest: IPointOfInterest
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${environment.apiUrl}/api/cities/${cityId}/pointsofinterest/${pointOfInterest.id}`,
+      pointOfInterest,
+      { headers: this.headerOptions }
+    );
+  }
+
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMsg = '';
 
