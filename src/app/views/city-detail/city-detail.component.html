@@ -1,56 +1,51 @@
-<div *ngIf="loading; else completed" class="spinner-border" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div>
-<ng-template #completed>
-  <div
-    *ngIf="!errorMessage || errorMessage?.length === 0"
-    class="container md-w-50 mx-auto my-5">
-    <div class="row justify-content-md-center">
-      <div class="col col-lg-2"></div>
-      <div class="col-md-auto">
-        <div class="card" style="min-width: 300px">
-          <h2 class="card-header">{{ city?.name }}</h2>
+<app-container>
+  <div *ngIf="loading; else completed" class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <ng-template #completed>
+    <div
+      *ngIf="!errorMessage || errorMessage?.length === 0"
+      class="card"
+      style="min-width: 300px">
+      <h2 class="card-header">{{ city?.name }}</h2>
+      <div class="card-body">
+        <div
+          *ngFor="let pointOfInterest of city?.pointsOfInterest"
+          class="card m-3">
+          <h3 class="card-header">{{ pointOfInterest.name }}</h3>
           <div class="card-body">
-            <div
-              *ngFor="let pointOfInterest of city?.pointsOfInterest"
-              class="card m-3">
-              <h3 class="card-header">{{ pointOfInterest.name }}</h3>
-              <div class="card-body">
-                <p>{{ pointOfInterest?.description }}</p>
-              </div>
-              <div class="card-footer">
-                <button
-                  type="button"
-                  [disabled]="actionLoading"
-                  class="btn btn-primary mx-2"
-                  (click)="update(city!.id, pointOfInterest.id)">
-                  Actualizar
-                </button>
-                <button
-                  type="button"
-                  [disabled]="actionLoading"
-                  class="btn btn-danger mx-2"
-                  (click)="remove(city!.id, pointOfInterest.id)">
-                  Eliminar
-                </button>
-                <p
-                  *ngIf="
-                    actionError &&
-                    actionError.cityId === city!.id &&
-                    actionError.pointOfInterestId === pointOfInterest.id
-                  "
-                  class="text-danger">
-                  {{ actionError.message }}
-                </p>
-              </div>
-            </div>
+            <p>{{ pointOfInterest?.description }}</p>
+          </div>
+          <div class="card-footer">
+            <button
+              type="button"
+              [disabled]="actionLoading"
+              class="btn btn-primary mx-2"
+              (click)="update(city!.id, pointOfInterest.id)">
+              Actualizar
+            </button>
+            <button
+              type="button"
+              [disabled]="actionLoading"
+              class="btn btn-danger mx-2"
+              (click)="remove(city!.id, pointOfInterest.id)">
+              Eliminar
+            </button>
+            <p
+              *ngIf="
+                actionError &&
+                actionError.cityId === city!.id &&
+                actionError.pointOfInterestId === pointOfInterest.id
+              "
+              class="text-danger">
+              {{ actionError.message }}
+            </p>
           </div>
         </div>
       </div>
-      <div class="col col-lg-2"></div>
     </div>
-  </div>
-  <p *ngIf="errorMessage?.length !== 0">
-    {{ errorMessage }}
-  </p>
-</ng-template>
+    <p *ngIf="errorMessage?.length !== 0">
+      {{ errorMessage }}
+    </p>
+  </ng-template>
+</app-container>

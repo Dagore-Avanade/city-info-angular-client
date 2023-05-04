@@ -1,63 +1,57 @@
-<div class="container md-w-50 mx-auto my-5">
-  <div class="row justify-content-md-center">
-    <div class="col col-lg-2"></div>
-    <div class="col-md-auto">
-      <div *ngIf="loading; else completed" class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <ng-template #completed>
-        <div class="card" style="min-width: 300px">
-          <h2 class="card-header">Actualizar punto de interés</h2>
-          <div class="card-body">
-            <form
-              *ngIf="!errorMessage"
-              [formGroup]="form"
-              (ngSubmit)="onSubmit()"
-              [ngClass]="submitted ? 'was-validated' : ''">
-              <div class="mb-3">
-                <label for="name" class="form-label">Nombre</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  required
-                  formControlName="name"
-                  class="form-control" />
-                <div *ngIf="submitted && name?.errors" class="invalid-feedback">
-                  <div *ngIf="submitted && name?.errors?.['required']">
-                    El nombre del punto de interés es obligatorio.
-                  </div>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="description" class="form-label">Descripción</label>
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  formControlName="description"
-                  class="form-control" />
-              </div>
-              <div class="text-center">
-                <button
-                  [disabled]="actionLoading"
-                  class="btn btn-primary"
-                  type="submit">
-                  <span
-                    *ngIf="actionLoading"
-                    class="spinner-border spinner-border-sm me-1"></span>
-                  Actualizar
-                </button>
-              </div>
-            </form>
-
-            <p *ngIf="errorMessage?.length !== 0" class="text-danger">
-              {{ errorMessage }}
-            </p>
-          </div>
-        </div>
-      </ng-template>
-    </div>
-    <div class="col col-lg-2"></div>
+<app-container>
+  <div *ngIf="loading; else completed" class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
-</div>
+  <ng-template #completed>
+    <div class="card" style="min-width: 300px">
+      <h2 class="card-header">Actualizar punto de interés</h2>
+      <div class="card-body">
+        <form
+          *ngIf="!errorMessage"
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+          [ngClass]="submitted ? 'was-validated' : ''">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              formControlName="name"
+              class="form-control" />
+            <div *ngIf="submitted && name?.errors" class="invalid-feedback">
+              <div *ngIf="submitted && name?.errors?.['required']">
+                El nombre del punto de interés es obligatorio.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              formControlName="description"
+              class="form-control" />
+          </div>
+          <div class="text-center">
+            <button
+              [disabled]="actionLoading"
+              class="btn btn-primary"
+              type="submit">
+              <span
+                *ngIf="actionLoading"
+                class="spinner-border spinner-border-sm me-1"></span>
+              Actualizar
+            </button>
+          </div>
+        </form>
+
+        <p *ngIf="errorMessage?.length !== 0" class="text-danger">
+          {{ errorMessage }}
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</app-container>
