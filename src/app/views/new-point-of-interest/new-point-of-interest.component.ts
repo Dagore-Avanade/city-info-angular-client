@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import ICityWithoutPointOfInterest from 'src/app/interfaces/ICityWithoutPointOfInterest';
 import { CityService } from 'src/app/services/city.service';
 
@@ -16,9 +16,8 @@ export class NewPointOfInterestComponent implements OnInit, OnDestroy {
   actionLoading = false;
   errorMessage?: string;
   cities: ICityWithoutPointOfInterest[] = [];
-  cities$: Subscription | null = null;
   form!: FormGroup;
-  createdCity$: Subscription | null = null;
+  stop$ = new Subject<void>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -36,21 +35,24 @@ export class NewPointOfInterestComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = true;
-    this.cities$ = this.cityService.all().subscribe({
-      next: response => {
-        this.cities = response;
-        this.form = this.formBuilder.group({
-          city: ['', Validators.required],
-          name: ['', Validators.required],
-          description: [''],
-        });
-        this.loading = false;
-      },
-      error: err => {
-        this.errorMessage = err;
-        this.loading = false;
-      },
-    });
+    this.cityService
+      .all()
+      .pipe(takeUntil(this.stop$))
+      .subscribe({
+        next: response => {
+          this.cities = response;
+          this.form = this.formBuilder.group({
+            city: ['', Validators.required],
+            name: ['', Validators.required],
+            description: [''],
+          });
+          this.loading = false;
+        },
+        error: err => {
+          this.errorMessage = err;
+          this.loading = false;
+        },
+      });
   }
 
   onSubmit(): void {
@@ -61,12 +63,13 @@ export class NewPointOfInterestComponent implements OnInit, OnDestroy {
     const cityId = this.form.get('city')!.value;
     const name = this.name!.value;
     const description = this.form.get('description')?.value;
-    this.createdCity$ = this.cityService
+    this.cityService
       .createPointOfInterest({
         cityId,
         name,
         description,
       })
+      .pipe(takeUntil(this.stop$))
       .subscribe({
         next: () => this.router.navigate(['/city', cityId]),
         error: err => {
@@ -77,7 +80,7 @@ export class NewPointOfInterestComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.cities$?.unsubscribe();
-    this.createdCity$?.unsubscribe();
+    this.stop$.next();
+    this.stop$.complete();
   }
 }

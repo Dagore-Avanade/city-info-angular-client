@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, first } from 'rxjs';
+import { Subject, first, takeUntil } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loading = false;
   submitted = false;
-  login$: Subscription | null = null;
+  stop$ = new Subject<void>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -62,9 +62,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     if (this.form.invalid) return;
 
     this.loading = true;
-    this.login$ = this.userService
+    this.userService
       .signUp(this.username?.value, this.password?.value)
-      .pipe(first())
+      .pipe(takeUntil(this.stop$), first())
       .subscribe({
         next: () => {
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] ?? '';
@@ -78,6 +78,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.login$?.unsubscribe();
+    this.stop$.next();
+    this.stop$.complete();
   }
 }

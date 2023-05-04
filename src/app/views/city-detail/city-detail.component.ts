@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import ICity from 'src/app/interfaces/ICity';
 import { CityService } from 'src/app/services/city.service';
 
@@ -18,9 +18,8 @@ export class CityDetailComponent implements OnInit, OnDestroy {
     cityId: number;
     pointOfInterestId: number;
   } | null = null;
-  city$: Subscription | null = null;
   city?: ICity;
-  removedCity$: Subscription | null = null;
+  stop$ = new Subject<void>();
 
   constructor(
     private readonly cityService: CityService,
@@ -31,16 +30,19 @@ export class CityDetailComponent implements OnInit, OnDestroy {
   init(): void {
     this.loading = true;
     const id = this.route.snapshot.params['id'] as number;
-    this.city$ = this.cityService.getById(id).subscribe({
-      next: response => {
-        this.city = response;
-        this.loading = false;
-      },
-      error: err => {
-        this.errorMessage = err;
-        this.loading = false;
-      },
-    });
+    this.cityService
+      .getById(id)
+      .pipe(takeUntil(this.stop$))
+      .subscribe({
+        next: response => {
+          this.city = response;
+          this.loading = false;
+        },
+        error: err => {
+          this.errorMessage = err;
+          this.loading = false;
+        },
+      });
   }
 
   ngOnInit(): void {
@@ -56,8 +58,9 @@ export class CityDetailComponent implements OnInit, OnDestroy {
   remove(cityId: number, pointOfInterestId: number): void {
     this.actionError = null;
     this.actionLoading = true;
-    this.removedCity$ = this.cityService
+    this.cityService
       .removePointOfInterest(cityId, pointOfInterestId)
+      .pipe(takeUntil(this.stop$))
       .subscribe({
         next: () => {
           this.init();
@@ -75,7 +78,7 @@ export class CityDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.city$?.unsubscribe();
-    this.removedCity$?.unsubscribe();
+    this.stop$.next();
+    this.stop$.complete();
   }
 }

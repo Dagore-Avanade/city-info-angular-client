@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import IPointOfInterest from 'src/app/interfaces/IPointOfInterest';
 import { CityService } from 'src/app/services/city.service';
 
@@ -18,9 +18,8 @@ export class UpdatePointOfInterestComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   cityId!: number;
   pointOfInterestId!: number;
-  pointOfInterest$: Subscription | null = null;
   pointOfInterest?: IPointOfInterest;
-  updatedPointOfInterest$: Subscription | null = null;
+  stop$ = new Subject<void>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -44,8 +43,9 @@ export class UpdatePointOfInterestComponent implements OnInit, OnDestroy {
     ] as number;
 
     this.loading = true;
-    this.pointOfInterest$ = this.cityService
+    this.cityService
       .getPointOfInterest(this.cityId, this.pointOfInterestId)
+      .pipe(takeUntil(this.stop$))
       .subscribe({
         next: response => {
           this.pointOfInterest = response;
@@ -71,12 +71,13 @@ export class UpdatePointOfInterestComponent implements OnInit, OnDestroy {
     this.actionLoading = true;
     const name = this.name?.value;
     const description = this.description?.value;
-    this.updatedPointOfInterest$ = this.cityService
+    this.cityService
       .updatePointOfInterest(this.cityId, {
         id: this.pointOfInterestId,
         name,
         description,
       })
+      .pipe(takeUntil(this.stop$))
       .subscribe({
         next: () => this.router.navigate(['/city', this.cityId]),
         error: err => (this.errorMessage = err),
@@ -84,7 +85,7 @@ export class UpdatePointOfInterestComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.pointOfInterest$?.unsubscribe();
-    this.updatedPointOfInterest$?.unsubscribe();
+    this.stop$.next();
+    this.stop$.complete();
   }
 }
