@@ -14,6 +14,8 @@ import { NewPointOfInterestComponent } from './views/new-point-of-interest/new-p
 import { UpdatePointOfInterestComponent } from './views/update-point-of-interest/update-point-of-interest.component';
 import { SignUpComponent } from './views/sign-up/sign-up.component';
 import { ContainerComponent } from './components/container/container.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { ContainerComponent } from './components/container/container.component';
     UpdatePointOfInterestComponent,
     SignUpComponent,
     ContainerComponent,
+    LoginFormComponent,
+    SignUpFormComponent,
   ],
   imports: [
     BrowserModule,
