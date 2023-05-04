@@ -16,6 +16,7 @@ import { SignUpComponent } from './views/sign-up/sign-up.component';
 import { ContainerComponent } from './components/container/container.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
+import { UpdatePointOfInterestFormComponent } from './components/update-point-of-interest-form/update-point-of-interest-form.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.comp
     ContainerComponent,
     LoginFormComponent,
     SignUpFormComponent,
+    UpdatePointOfInterestFormComponent,
   ],
   imports: [
     BrowserModule,

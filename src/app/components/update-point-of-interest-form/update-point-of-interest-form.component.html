@@ -1,0 +1,40 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  [ngClass]="submitted ? 'was-validated' : ''">
+  <div class="mb-3">
+    <label for="name" class="form-label">Nombre</label>
+    <input
+      type="text"
+      name="name"
+      id="name"
+      required
+      formControlName="name"
+      class="form-control" />
+    <div *ngIf="submitted && name?.errors" class="invalid-feedback">
+      <div *ngIf="submitted && name?.errors?.['required']">
+        El nombre del punto de interés es obligatorio.
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Descripción</label>
+    <input
+      type="text"
+      name="description"
+      id="description"
+      formControlName="description"
+      class="form-control" />
+  </div>
+  <div class="text-center">
+    <button [disabled]="actionLoading" class="btn btn-primary" type="submit">
+      <span
+        *ngIf="actionLoading"
+        class="spinner-border spinner-border-sm me-1"></span>
+      Actualizar
+    </button>
+  </div>
+  <p *ngIf="errorMessage?.length !== 0" class="text-danger">
+    {{ errorMessage }}
+  </p>
+</form>
