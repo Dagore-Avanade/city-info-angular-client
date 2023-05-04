@@ -2,13 +2,16 @@
   <span class="visually-hidden">Loading...</span>
 </div>
 <ng-template #completed>
-  <ul *ngIf="!errorMessage || errorMessage?.length === 0">
-    <li *ngFor="let city of cities">
-      <a [routerLink]="['/city', city.id]">
-        {{ city.name }}
-      </a>
-    </li>
-  </ul>
+  <div
+    *ngIf="!errorMessage || errorMessage?.length === 0"
+    class="list-group text-center">
+    <a
+      *ngFor="let city of cities"
+      [routerLink]="['/city', city.id]"
+      class="list-group-item">
+      {{ city.name }}
+    </a>
+  </div>
   <p *ngIf="errorMessage?.length !== 0">
     {{ errorMessage }}
   </p>

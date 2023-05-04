@@ -51,7 +51,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
       const passwordInput = group.controls[passwordKey];
       const passwordConfirmationInput = group.controls[passwordConfirmationKey];
       if (passwordInput.value !== passwordConfirmationInput.value) {
-        return passwordConfirmationInput.setErrors({ notEquivalent: true });
+        return passwordConfirmationInput.setErrors({ passwordMismatch: true });
       } else {
         return passwordConfirmationInput.setErrors(null);
       }
@@ -72,18 +72,25 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl(returnUrl);
         },
         error: err => {
-          console.log(err.error.code);
-          if (err.error.code === 1) {
-            this.errorMessage =
-              'La contraseña debe contener al menos una minúscula, una mayúscula, un dígito y un carácter especial. Su tamaño debe estar comprendido entre 6 y 10 caracteres.';
-          } else if (err.error.code === 2) {
-            this.errorMessage = 'El nombre de usuario se encuentra en uso.';
-          } else {
-            this.errorMessage = err.message;
-          }
+          this.errorMessage = this.getErrorFromServerResponse(err.error);
           this.loading = false;
         },
       });
+  }
+
+  getErrorFromServerResponse(error: { code: number; message: string }): string {
+    let message = '';
+
+    if (error.code === 1) {
+      message =
+        'La contraseña debe contener al menos una minúscula, una mayúscula, un dígito y un carácter especial. Su tamaño debe estar comprendido entre 6 y 10 caracteres.';
+    } else if (error.code === 2) {
+      message = 'El nombre de usuario se encuentra en uso.';
+    } else {
+      message = error.message;
+    }
+
+    return message;
   }
 
   ngOnDestroy(): void {

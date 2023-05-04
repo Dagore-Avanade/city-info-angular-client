@@ -41,9 +41,10 @@
       formControlName="confirmPassword"
       name="confirmPassword"
       title="confirm password"
-      class="form-control" />
-    <div *ngIf="submitted && password?.errors" class="invalid-feedback">
-      <div *ngIf="submitted && password?.errors?.['required']">
+      class="form-control"
+      [ngClass]="confirmPassword?.errors?.['passwordMismatch'] ? 'is-invalid' : ''" />
+    <div class="invalid-feedback">
+      <div *ngIf="confirmPassword?.errors?.['passwordMismatch']">
         Las contraseñas no coinciden.
       </div>
     </div>
