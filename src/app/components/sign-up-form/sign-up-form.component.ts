@@ -13,6 +13,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loading = false;
   submitted = false;
+  errorMessage?: string;
   stop$ = new Subject<void>();
 
   constructor(
@@ -71,7 +72,15 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl(returnUrl);
         },
         error: err => {
-          console.error(err);
+          console.log(err.error.code);
+          if (err.error.code === 1) {
+            this.errorMessage =
+              'La contraseña debe contener al menos una minúscula, una mayúscula, un dígito y un carácter especial. Su tamaño debe estar comprendido entre 6 y 10 caracteres.';
+          } else if (err.error.code === 2) {
+            this.errorMessage = 'El nombre de usuario se encuentra en uso.';
+          } else {
+            this.errorMessage = err.message;
+          }
           this.loading = false;
         },
       });

@@ -57,4 +57,7 @@
     </button>
     <p>¿Ya estás registrado? <a routerLink="../login">Inicia sesión</a></p>
   </div>
+  <p *ngIf="errorMessage?.length !== 0" class="text-danger">
+    {{ errorMessage }}
+  </p>
 </form>

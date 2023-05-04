@@ -13,6 +13,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loading = false;
   submitted = false;
+  errorMessage?: string;
   stop$ = new Subject<void>();
 
   constructor(
@@ -49,8 +50,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] ?? '';
           this.router.navigateByUrl(returnUrl);
         },
-        error: err => {
-          console.error(err);
+        error: () => {
+          this.errorMessage = 'El usuario o la contraseña no son correctos';
           this.loading = false;
         },
       });

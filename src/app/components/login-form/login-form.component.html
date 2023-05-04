@@ -43,4 +43,7 @@
       <a routerLink="../signUp">Regístrate</a>
     </p>
   </div>
+  <p *ngIf="errorMessage?.length !== 0" class="text-danger">
+    {{ errorMessage }}
+  </p>
 </form>
